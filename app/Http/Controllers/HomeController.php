@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -17,12 +18,20 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Shows the application dashboard and sends token, which is used to authorize front-end requests.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
     {
-        return view('home');
+        $user = Auth::user();
+        $token = Auth::guard("api")->login($user);
+
+        return view(
+            'home',
+            [
+                'token' => $token
+            ]
+        );
     }
 }
