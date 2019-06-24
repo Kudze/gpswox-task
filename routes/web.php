@@ -11,10 +11,9 @@
 |
 */
 
+Auth::routes();
+
 Route::middleware('auth')->get('/', function () {
     return response()->redirectToRoute('home');
 });
-
-Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
