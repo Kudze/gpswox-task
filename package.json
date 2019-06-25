@@ -23,5 +23,9 @@
         "resolve-url-loader": "^2.3.1",
         "sass": "^1.15.2",
         "sass-loader": "^7.1.0"
+    },
+    "dependencies": {
+        "@babel/plugin-proposal-class-properties": "^7.4.4",
+        "google-map-react": "^1.1.4"
     }
 }
