@@ -6,16 +6,19 @@ const AnyReactComponent = ({ text }) => <div>{text}</div>;
 class Map extends React.Component {
     static defaultProps = {
         center: {
-            lat: 59.95,
-            lng: 30.33
+            lat: 54.687157,
+            lng: 25.279652
         },
-        zoom: 11
+        zoom: 8
     };
 
     render() {
+        let mapContainerStyle = {
+            height: "calc(100vh - 110px)"
+        };
+
         return (
-            // Important! Always set the container height explicitly
-            <div style={{ height: '100vh', width: '100%' }}>
+            <div className={"w-100"} style={{...mapContainerStyle}}>
                 <GoogleMapReact
                     defaultCenter={this.props.center}
                     defaultZoom={this.props.zoom}
