@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Map from "./map";
+import GeoMap from "./geoMap";
 import SideMenu from "./sideMenu";
 
 let Dashboard = () => {
@@ -13,9 +13,9 @@ let Dashboard = () => {
                 </SideMenu>
             </div>
             <div className={"col-9"}>
-                <Map>
+                <GeoMap>
 
-                </Map>
+                </GeoMap>
             </div>
         </div>
     )
