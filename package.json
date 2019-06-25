@@ -26,6 +26,7 @@
     },
     "dependencies": {
         "@babel/plugin-proposal-class-properties": "^7.4.4",
-        "google-map-react": "^1.1.4"
+        "google-map-react": "^1.1.4",
+        "react-geolocated": "^2.5.0"
     }
 }
