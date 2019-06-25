@@ -5,16 +5,22 @@ import Map from "./map"
 
 let GeoMap = (props) => {
 
-    return !this.props.isGeolocationAvailable || !this.props.isGeolocationEnabled ? (
+    return !props.isGeolocationAvailable || !props.isGeolocationEnabled ? (
         <Map>
             {props.children}
         </Map>
-    ) : this.props.coords ? (
+    ) : props.coords === null ? (
+        <div className="d-flex justify-content-center">
+            <div className="spinner-border" role="status">
+                <span className="sr-only">Loading...</span>
+            </div>
+        </div>
+    ) : (
         <Map
             center={
                 {
-                    lat: this.props.coords.latitude,
-                    lon: this.props.coords.longitude
+                    lat: props.coords.latitude,
+                    lng: props.coords.longitude
                 }
             }
         >
