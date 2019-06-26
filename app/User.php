@@ -60,6 +60,6 @@ class User extends Authenticatable implements JWTSubject
 
     public function devices()
     {
-        return $this->belongsToMany(Device::class)->withPivot('active);
+        return $this->belongsToMany(Device::class)->withPivot('active');
     }
 }
