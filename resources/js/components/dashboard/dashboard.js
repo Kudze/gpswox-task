@@ -1,10 +1,11 @@
 import React from "react";
 
-import {GeoMap} from "./map";
 import SideMenu from "./sideMenu";
 import Spinner from "./spinner";
 
 import {executeAuthorizedAPICall} from "../../api";
+import Map from "./map/geoMap";
+import Marker from "./map/marker";
 
 class Dashboard extends React.Component {
     constructor(props) {
@@ -33,6 +34,28 @@ class Dashboard extends React.Component {
         this.updateInfo();
     };
 
+    renderMarkers = () => {
+        let markers = [];
+
+        this.state.data.forEach(
+            (marker, index) => {
+                markers.push(
+                    <Marker
+                        key={index}
+                        pos={
+                            {
+                                lat: marker.latitude,
+                                lng: marker.longitude
+                            }
+                        }
+                    />
+                )
+            }
+        );
+
+        return markers;
+    };
+
     render() {
         return this.state.data === null ? (
             <Spinner/>
@@ -44,9 +67,9 @@ class Dashboard extends React.Component {
                     </SideMenu>
                 </div>
                 <div className={"col-9"}>
-                    <GeoMap>
-
-                    </GeoMap>
+                    <Map>
+                        {this.renderMarkers()}
+                    </Map>
                 </div>
             </div>
         );
