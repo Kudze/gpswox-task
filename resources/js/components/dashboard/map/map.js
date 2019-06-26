@@ -12,7 +12,7 @@ class Map extends React.Component {
 
     render() {
         return (
-            <div className={"w-100 map-container"}>
+            <div className={"w-100 vh-75"}>
                 <GoogleMapReact
                     defaultCenter={this.props.center}
                     defaultZoom={this.props.zoom}
