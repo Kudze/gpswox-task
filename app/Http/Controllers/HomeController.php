@@ -27,7 +27,7 @@ class HomeController extends Controller
     {
         $user = Auth::user();
         $token = Auth::guard("api")->login($user);
-        $googleToken = Config::get("google.api_key");
+        $googleToken = Config::get("google.maps_api_key");
 
         return view(
             'home',
