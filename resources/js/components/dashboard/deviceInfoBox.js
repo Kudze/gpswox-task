@@ -8,15 +8,12 @@ import {executeAuthorizedAPICall} from "../../api";
 
 class DeviceInfoBox extends React.Component {
     static defaultProps = {
-        "id": 0,
-        "name": "BMW X5",
-        "imei": "527771798195722",
-        "latitude": 0,
-        "longitude": 0,
-        "created_at": "2019-06-26 00:37:46",
-        "updated_at": "2019-06-26 00:37:46",
-        "pivot": {
-            "user_id": 1, "device_id": 21254, "active": 1
+        "data": {
+            "id": 0,
+            "name": "BMW X5",
+            "imei": "527771798195722",
+            "latitude": 0,
+            "longitude": 0
         }
     };
 
