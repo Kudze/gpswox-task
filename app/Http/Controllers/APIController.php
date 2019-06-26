@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Device;
 use App\Models\User;
 use App\Repositories\DeviceRepositoryInterface;
 use App\Repositories\UserRepositoryInterface;
@@ -38,6 +39,33 @@ class APIController extends Controller
 
         return response()->json(
             $data
+        );
+    }
+
+    /**
+     * Retrieves device info
+     */
+    public function retrieveDeviceInfo($id)
+    {
+        $device = Device::find($id);
+
+        if($device === null)
+            return response()->json(
+                [
+                    'err' => 'ID is invalid'
+                ]
+            );
+
+        $closestDevice = $this->deviceRepository->getClosestDeviceTo(
+            $device->latitude,
+            $device->longitude
+        );
+
+        return response()->json(
+            [
+                'device' => $device,
+                'closestDevice' => $closestDevice
+            ]
         );
     }
 }
