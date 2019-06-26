@@ -1,6 +1,7 @@
 import React from "react";
 import {withScriptjs, withGoogleMap, GoogleMap, Marker} from "react-google-maps"
 import {MarkerClusterer} from "react-google-maps/lib/components/addons/MarkerClusterer";
+import {InfoBox} from "react-google-maps/lib/components/addons/InfoBox";
 
 class _Map extends React.Component {
     static defaultProps = {
@@ -11,18 +12,51 @@ class _Map extends React.Component {
         zoom: 10
     };
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            activeMarkerIndex: null
+        };
+    }
+
+    openInfo = (id) => {
+        this.setState(
+            {
+                activeMarkerIndex: id
+            }
+        )
+    };
+
+    closeInfo = () => {
+        this.setState(
+            {
+                activeMarkerIndex: null
+            }
+        );
+    };
+
     renderMarkers = () => {
         let markers = [];
 
         this.props.children.forEach(
             (marker, index) => {
+                let inner = null;
+
+                if(index === this.state.activeMarkerIndex)
+                    inner = <InfoBox onCloseClick={this.closeInfo}>{marker.props.children}</InfoBox>;
+
                 markers.push(
                     <Marker
                         key={index}
                         position={
                             {...marker.props.pos}
                         }
-                    />
+                        onClick={() => {this.openInfo(index)}}
+                        label={index.toString()}
+                    >
+                        {inner}
+                    </Marker>
                 )
             }
         );
@@ -39,7 +73,7 @@ class _Map extends React.Component {
                 <MarkerClusterer
                     averageCenter
                     enableRetinaIcons
-                    gridSize={60}
+                    gridSize={120}
                 >
                     {this.renderMarkers()}
                 </MarkerClusterer>

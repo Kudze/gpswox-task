@@ -2,7 +2,7 @@ import React from "react";
 import {geolocated} from "react-geolocated";
 
 import Map from "./map"
-import Spinner from "./../spinner";
+import Spinner from "./../spinnerLarge";
 
 let GeoMap = (props) => {
 

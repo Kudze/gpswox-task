@@ -1,7 +1,8 @@
 import React from "react";
 
 import SideMenu from "./sideMenu";
-import Spinner from "./spinner";
+import Spinner from "./spinnerLarge";
+import InfoBox from "./deviceInfoBox";
 
 import {executeAuthorizedAPICall} from "../../api";
 import Map from "./map/geoMap";
@@ -48,7 +49,11 @@ class Dashboard extends React.Component {
                                 lng: marker.longitude
                             }
                         }
-                    />
+                    >
+                        <InfoBox data={{...marker}}>
+                            Hello world
+                        </InfoBox>
+                    </Marker>
                 )
             }
         );
