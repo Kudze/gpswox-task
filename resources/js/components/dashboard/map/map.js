@@ -3,6 +3,8 @@ import {withScriptjs, withGoogleMap, GoogleMap, Marker} from "react-google-maps"
 import {MarkerClusterer} from "react-google-maps/lib/components/addons/MarkerClusterer";
 import {InfoBox} from "react-google-maps/lib/components/addons/InfoBox";
 
+import {getGoogleAPIKey} from "../../../api/geo";
+
 class _Map extends React.Component {
     static defaultProps = {
         center: {
