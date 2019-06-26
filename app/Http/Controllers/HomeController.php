@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 class HomeController extends Controller
 {
@@ -26,11 +27,13 @@ class HomeController extends Controller
     {
         $user = Auth::user();
         $token = Auth::guard("api")->login($user);
+        $googleToken = Config::get("google.api_key");
 
         return view(
             'home',
             [
-                'token' => $token
+                'token' => $token,
+                'googleAPIKey' => $googleToken
             ]
         );
     }
