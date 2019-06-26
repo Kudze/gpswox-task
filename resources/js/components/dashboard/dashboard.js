@@ -15,6 +15,10 @@ class Dashboard extends React.Component {
         };
     }
 
+    componentDidMount () {
+        this.updateInfo();
+    };
+
     updateInfo = () => {
         executeAuthorizedAPICall(
             'user/devices'
@@ -29,8 +33,8 @@ class Dashboard extends React.Component {
         );
     };
 
-    componentDidMount = () => {
-        this.updateInfo();
+    renderMarkers = () => {
+
     };
 
     render() {
@@ -45,7 +49,7 @@ class Dashboard extends React.Component {
                 </div>
                 <div className={"col-9"}>
                     <GeoMap>
-
+                        {this.renderMarkers()}
                     </GeoMap>
                 </div>
             </div>
