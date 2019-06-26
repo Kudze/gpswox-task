@@ -17,7 +17,7 @@ export function setJWTToken(jwt) {
  * @param body
  * @returns {Promise<Response>}
  */
-export function executeAPICall(url, body) {
+export function executeAPICall(url, body = {}) {
     return fetch(`${location.protocol}//${location.host}/api/${url}`, {
         method: 'POST',
         headers: {
@@ -39,7 +39,7 @@ export function executeAPICall(url, body) {
  * @param body
  * @returns {Promise<Response>}
  */
-export function executeAuthorizedAPICall(url, body) {
+export function executeAuthorizedAPICall(url, body = {}) {
     if(_token === null) console.error("Authorized API call was executed without JWT token!");
 
     return fetch(`${location.protocol}//${location.host}/api/${url}`, {
