@@ -11,12 +11,8 @@ class Map extends React.Component {
     };
 
     render() {
-        let mapContainerStyle = {
-            height: "calc(100vh - 110px)"
-        };
-
         return (
-            <div className={"w-100"} style={{...mapContainerStyle}}>
+            <div className={"w-100 map-container"}>
                 <GoogleMapReact
                     defaultCenter={this.props.center}
                     defaultZoom={this.props.zoom}

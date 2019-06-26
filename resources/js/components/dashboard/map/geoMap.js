@@ -2,6 +2,7 @@ import React from "react";
 import {geolocated} from "react-geolocated";
 
 import Map from "./map"
+import Spinner from "./../spinner";
 
 let GeoMap = (props) => {
 
@@ -10,11 +11,7 @@ let GeoMap = (props) => {
             {props.children}
         </Map>
     ) : props.coords === null ? (
-        <div className="d-flex justify-content-center">
-            <div className="spinner-border" role="status">
-                <span className="sr-only">Loading...</span>
-            </div>
-        </div>
+        <Spinner/>
     ) : (
         <Map
             center={
