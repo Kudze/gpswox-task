@@ -7,6 +7,7 @@ import InfoBox from "./deviceInfoBox";
 import {executeAuthorizedAPICall} from "../../api";
 import Map from "./map/geoMap";
 import Marker from "./map/marker";
+import DeviceItem from "./deviceItem";
 
 class Dashboard extends React.Component {
     constructor(props) {
@@ -35,24 +36,40 @@ class Dashboard extends React.Component {
         this.updateInfo();
     };
 
+    renderItems = () => {
+        let markers = [];
+
+        this.state.data.forEach(
+            (device, index) => {
+                markers.push(
+                    <DeviceItem
+                        key={index}
+                        data={{...device}}
+                        marked={false}
+                    />
+                )
+            }
+        );
+
+        return markers;
+    };
+
     renderMarkers = () => {
         let markers = [];
 
         this.state.data.forEach(
-            (marker, index) => {
+            (device, index) => {
                 markers.push(
                     <Marker
                         key={index}
                         pos={
                             {
-                                lat: marker.latitude,
-                                lng: marker.longitude
+                                lat: device.latitude,
+                                lng: device.longitude
                             }
                         }
                     >
-                        <InfoBox data={{...marker}}>
-                            Hello world
-                        </InfoBox>
+                        <InfoBox data={{...device}}/>
                     </Marker>
                 )
             }
@@ -68,7 +85,7 @@ class Dashboard extends React.Component {
             <div className={"row"}>
                 <div className={"col-3"}>
                     <SideMenu>
-
+                        {this.renderItems()}
                     </SideMenu>
                 </div>
                 <div className={"col-9"}>
