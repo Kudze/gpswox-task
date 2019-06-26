@@ -56,15 +56,14 @@ class APIController extends Controller
                 ]
             );
 
-        $closestDevice = $this->deviceRepository->getClosestDeviceTo(
+        $imei = $this->deviceRepository->getClosestDeviceIMEITo(
             $device->latitude,
             $device->longitude
         );
 
         return response()->json(
             [
-                'device' => $device,
-                'closestDevice' => $closestDevice
+                'imei' => $imei
             ]
         );
     }

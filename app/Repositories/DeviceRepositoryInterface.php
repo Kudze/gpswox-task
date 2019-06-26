@@ -12,6 +12,6 @@ use App\Models\Device;
 
 interface DeviceRepositoryInterface {
 
-    public function getClosestDeviceTo(float $latitude, float $logitude) : ?Device;
+    public function getClosestDeviceIMEITo(float $latitude, float $logitude) : ?string;
 
 }
