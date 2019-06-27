@@ -11,11 +11,22 @@ use App\Services\IMEIValidatorInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+//If project was bigger i would make APIController abstract with genError as protected func.
+//But this project is small so its fine.
 class APIController extends Controller
 {
     private $userRepository;
     private $deviceRepository;
     private $IMEIValidator;
+
+    private function genError($err) {
+        return response()->json(
+            [
+                "err" => $err
+            ],
+            401
+        );
+    };
 
     /**
      * Create a new controller instance.
@@ -57,12 +68,7 @@ class APIController extends Controller
     {
         $device = Device::find($id);
 
-        if($device === null)
-            return response()->json(
-                [
-                    'err' => 'ID is invalid'
-                ]
-            );
+        if($device === null) return $this->genError('ID is invalid');
 
         $imei = $this->deviceRepository->getClosestDeviceIMEITo(
             $device->latitude,
@@ -81,12 +87,7 @@ class APIController extends Controller
         $user = Auth::user();
         $device = Device::find($id);
 
-        if($device === null)
-            return response()->json(
-                [
-                    'err' => 'ID is invalid'
-                ]
-            );
+        if($device === null) return $this->genError('ID is invalid');
 
         $device->users()->updateExistingPivot(
             $user->id,
@@ -106,28 +107,19 @@ class APIController extends Controller
         $lat = $request->get("lat", null);
         $lng = $request->get("lng", null);
 
-        $genError = function($err) {
-            return response()->json(
-                [
-                    "err" => $err
-                ],
-                401
-            );
-        };
-
-        if($name === null) return $genError("Name was not provided!");
-        if(strlen($name) > 64) return $genError("Name is too long!");
-        if($imei === null) return $genError("IMEI was not provided!");
-        if(!$this->IMEIValidator->isIMEIValid($imei)) return $genError("IMEI is invalid!");
-        if($lat === null) return $genError("Latitude was not provided!");
-        if($lng === null) return $genError("Longitude was not provided!");
+        if($name === null) return $this->genError("Name was not provided!");
+        if(strlen($name) > 64) return $this->genError("Name is too long!");
+        if($imei === null) return $this->genError("IMEI was not provided!");
+        if(!$this->IMEIValidator->isIMEIValid($imei)) return $this->genError("IMEI is invalid!");
+        if($lat === null) return $this->genError("Latitude was not provided!");
+        if($lng === null) return $this->genError("Longitude was not provided!");
 
         if(!$user->hasRole('admin'))
         {
             $device = Device::where('imei', $imei)->first();
 
             if($device !== null && $device->users()->where('id', $user->id) === null)
-                return $genError("This IMEI is already registered to our service. You're not authorized to add it to your account!");
+                return $this->genError("This IMEI is already registered to our service. You're not authorized to add it to your account!");
         }
 
         $device = Device::updateOrCreate(
