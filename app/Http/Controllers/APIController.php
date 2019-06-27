@@ -10,6 +10,7 @@ use App\Services\IMEIValidator;
 use App\Services\IMEIValidatorInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 //If project was bigger i would make APIController abstract with genError as protected func.
 //But this project is small so its fine.
@@ -114,12 +115,12 @@ class APIController extends Controller
         if($lat === null) return $this->genError("Latitude was not provided!");
         if($lng === null) return $this->genError("Longitude was not provided!");
 
-        if(!$user->hasRole('admin'))
-        {
+        if(!$user->hasRole('admin')) {
             $device = Device::where('imei', $imei)->first();
 
-            if($device !== null && $device->users()->where('id', $user->id) === null)
+            if ($device !== null && !$device->users()->where('users.id', $user->id)->exists()) {
                 return $this->genError("This IMEI is already registered to our service. You're not authorized to add it to your account!");
+            }
         }
 
         $device = Device::updateOrCreate(
