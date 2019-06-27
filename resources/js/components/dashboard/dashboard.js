@@ -106,6 +106,8 @@ class Dashboard extends React.Component {
                 data: data
             }
         );
+
+        this.updateLongestDevicesMarks()
     };
 
     componentDidMount = () => {
