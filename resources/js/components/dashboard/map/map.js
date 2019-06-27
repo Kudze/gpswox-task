@@ -11,7 +11,7 @@ class _Map extends React.Component {
             lat: 54.687157,
             lng: 25.279652
         },
-        zoom: 10
+        zoom: 5
     };
 
     constructor(props) {
