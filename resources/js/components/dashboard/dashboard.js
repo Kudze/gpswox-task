@@ -38,12 +38,14 @@ class Dashboard extends React.Component {
 
     toggleDeviceActive = (index) => {
         let data = [...this.state.data];
+        let id = this.state.data[index].id;
+        let active = !this.state.data[index].pivot.active;
 
         data[index] = {
             ...this.state.data[index],
             pivot: {
                 ...this.state.data[index].pivot,
-                active: !this.state.data[index].pivot.active
+                active: active
             }
         };
 
@@ -51,6 +53,11 @@ class Dashboard extends React.Component {
             {
                 data: data
             }
+        );
+
+        //We dont need to send user data. Since user will be fetched from JWT token.
+        executeAuthorizedAPICall(
+            `device/toggle/${id}/${active ? 1 : 0}`
         );
     };
 
