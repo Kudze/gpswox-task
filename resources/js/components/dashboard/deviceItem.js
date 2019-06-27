@@ -17,7 +17,7 @@ class DeviceItem extends React.Component {
 
     render() {
         return (
-            <div className={"d-block"}>
+            <div className={"d-block"} style={this.props.marked ? {backgroundColor: "rgba(0,0,0,0.5)"} : {}}>
                 <div className="d-flex w-100 align-items-center justify-content-start">
                     <div style={{height: "50px", width: "50px"}}>
                         <input className="d-block" type="checkbox"
@@ -27,7 +27,7 @@ class DeviceItem extends React.Component {
                         />
                     </div>
                     <div className={"ml-4"}>
-                        <h3>{this.props.data.name}</h3>
+                        <h3>{this.props.data.name} {this.props.marked ? "(Marked)" : ""}</h3>
                         <p>{this.props.data.imei}</p>
                     </div>
                 </div>
