@@ -33,7 +33,7 @@ class DeviceInfoBox extends React.Component {
 
     updateClosestComponent = () => {
         executeAuthorizedAPICall(
-            `device/${this.props.data.id}`
+            `device/info/${this.props.data.id}`
         ).then(
             ({imei}) => {
                 this.setState(
