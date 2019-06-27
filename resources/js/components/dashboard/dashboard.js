@@ -36,6 +36,24 @@ class Dashboard extends React.Component {
         this.updateInfo();
     };
 
+    toggleDeviceActive = (index) => {
+        let data = [...this.state.data];
+
+        data[index] = {
+            ...this.state.data[index],
+            pivot: {
+                ...this.state.data[index].pivot,
+                active: !this.state.data[index].pivot.active
+            }
+        };
+
+        this.setState(
+            {
+                data: data
+            }
+        );
+    };
+
     renderItems = () => {
         let markers = [];
 
@@ -46,6 +64,11 @@ class Dashboard extends React.Component {
                         key={index}
                         data={{...device}}
                         marked={false}
+                        onActiveChange={
+                            () => {
+                                this.toggleDeviceActive(index)
+                            }
+                        }
                     />
                 )
             }
@@ -59,19 +82,21 @@ class Dashboard extends React.Component {
 
         this.state.data.forEach(
             (device, index) => {
-                markers.push(
-                    <Marker
-                        key={index}
-                        pos={
-                            {
-                                lat: device.latitude,
-                                lng: device.longitude
+                if (device.pivot.active)
+                    markers.push(
+                        <Marker
+                            key={index}
+                            localIndex={index}
+                            pos={
+                                {
+                                    lat: device.latitude,
+                                    lng: device.longitude
+                                }
                             }
-                        }
-                    >
-                        <InfoBox data={{...device}}/>
-                    </Marker>
-                )
+                        >
+                            <InfoBox data={{...device}}/>
+                        </Marker>
+                    )
             }
         );
 

@@ -11,16 +11,22 @@ class DeviceItem extends React.Component {
             }
         },
         "marked": false,
-        "onActiveChange": (value) => {
+        "onActiveChange": () => {
         }
     };
 
     render() {
         return (
             <div className={"d-block"}>
-                <div className="form-check form-check-inline">
-                    <input className="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1"/>
-                    <div class={"mr-4"}>
+                <div className="d-flex w-100 align-items-center justify-content-start">
+                    <div style={{height: "50px", width: "50px"}}>
+                        <input className="d-block" type="checkbox"
+                               style={{height: "50px", width: "50px"}}
+                               checked={this.props.data.pivot.active}
+                               onChange={this.props.onActiveChange}
+                        />
+                    </div>
+                    <div className={"ml-4"}>
                         <h3>{this.props.data.name}</h3>
                         <p>{this.props.data.imei}</p>
                     </div>

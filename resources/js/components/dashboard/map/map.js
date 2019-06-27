@@ -55,7 +55,7 @@ class _Map extends React.Component {
                             {...marker.props.pos}
                         }
                         onClick={() => {this.openInfo(index)}}
-                        label={index.toString()}
+                        label={marker.props.localIndex.toString()}
                     >
                         {inner}
                     </Marker>
