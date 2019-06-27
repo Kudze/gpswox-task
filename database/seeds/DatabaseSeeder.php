@@ -15,12 +15,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\User::class, USER_COUNT)->create();
-        factory(App\Device::class, DEVICE_COUNT)->create();
+        factory(App\Models\User::class, USER_COUNT)->create();
+        factory(App\Models\Device::class, DEVICE_COUNT)->create();
 
-        $devices = App\Device::all();
+        $devices = App\Models\Device::all();
 
-        App\User::all()->each(
+        App\Models\User::all()->each(
             function ($user) use ($devices) {
             $user->devices()->attach(
                 $devices->random(DEVICE_PER_USER_COUNT)->pluck('id')->toArray()
