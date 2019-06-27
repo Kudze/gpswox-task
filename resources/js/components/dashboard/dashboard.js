@@ -40,7 +40,7 @@ class Dashboard extends React.Component {
 
         let data = this.state.data;
 
-        let shortestDist = null;
+        let longestDist = null;
         let markIndexes = [];
 
         data.forEach(
@@ -55,8 +55,8 @@ class Dashboard extends React.Component {
                                 device2.longitude
                             );
 
-                            if(shortestDist === null || shortestDist > d) {
-                                shortestDist = d;
+                            if(longestDist === null || longestDist < d) {
+                                longestDist = d;
                                 markIndexes = [index1, index2];
                             }
                         }
