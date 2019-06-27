@@ -16,7 +16,7 @@ class CreateDevicesTable extends Migration
         Schema::create('devices', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string("name", 64);
-            $table->string("imei", 15); //imeisv requires 16 digits but this is prooly regular imei.
+            $table->string("imei", 15)->unique(); //imeisv requires 16 digits but this is prooly regular imei.
             $table->float("latitude");
             $table->float("longitude");
             $table->timestamps();
