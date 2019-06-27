@@ -91,7 +91,15 @@ class Dashboard extends React.Component {
     addDeviceToExistingInfo = (device) => {
         let data = [...this.state.data];
 
-        data.push(device);
+        let indexToUpdate = data.length;
+
+        data.forEach(
+            (_device, index) => {
+                if(_device.imei === device.imei) indexToUpdate = index;
+            }
+        );
+
+        data[indexToUpdate] = device;
 
         this.setState(
             {
