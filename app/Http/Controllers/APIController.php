@@ -26,7 +26,7 @@ class APIController extends Controller
             ],
             401
         );
-    };
+    }
 
     /**
      * Create a new controller instance.
