@@ -67,4 +67,26 @@ class APIController extends Controller
             ]
         );
     }
+
+    public function toggleDeviceActive($id, $active)
+    {
+        $user = Auth::user();
+        $device = Device::find($id);
+
+        if($device === null)
+            return response()->json(
+                [
+                    'err' => 'ID is invalid'
+                ]
+            );
+
+        $device->users()->updateExistingPivot(
+            $user->id,
+            ['active' => $active]
+        );
+
+        return response()->json(
+            []
+        );
+    }
 }
