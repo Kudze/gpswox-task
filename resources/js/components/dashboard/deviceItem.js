@@ -17,7 +17,7 @@ class DeviceItem extends React.Component {
 
     render() {
         return (
-            <div className={"d-block px-2 py-2"} style={this.props.marked ? {backgroundColor: "rgba(0,0,0,0.5)"} : {}}>
+            <div className={"d-block px-2 py-2"} style={this.props.marked ? {backgroundColor: "rgba(0,0,0,0.25)"} : {}}>
                 <div className="d-flex w-100 align-items-center justify-content-start">
                     <div style={{height: "50px", width: "50px"}}>
                         <input className="d-block" type="checkbox"
