@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Device extends Model
 {
+    protected $fillable = [
+        "imei", "name", "latitude", "longitude"
+    ];
 
     public function users()
     {

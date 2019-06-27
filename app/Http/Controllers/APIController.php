@@ -129,7 +129,7 @@ class APIController extends Controller
 
         //We want to attach device to user.
         //sync function doesn't create already existing attachments in many to many relationship.
-        $user->devices()->sync([$device.id], false);
+        $user->devices()->sync([$device->id], false);
 
         return response()->json(
             [
