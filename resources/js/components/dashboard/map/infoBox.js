@@ -2,7 +2,7 @@ import React from "react";
 
 export default (props) => {
     return <div
-        className={'bg-light d-flex align-items-center justify-content-center'}
+        className={'bg-light d-flex align-items-center justify-content-center p-3'}
         style={
             {
                 minWidth: '300px',
