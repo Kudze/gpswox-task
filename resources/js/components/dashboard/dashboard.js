@@ -88,6 +88,18 @@ class Dashboard extends React.Component {
         );
     };
 
+    addDeviceToExistingInfo = (device) => {
+        let data = [...this.state.data];
+
+        data.push(device);
+
+        this.setState(
+            {
+                data: data
+            }
+        );
+    };
+
     componentDidMount = () => {
         this.updateInfo();
     };
@@ -172,7 +184,7 @@ class Dashboard extends React.Component {
         ) : (
             <div className={"row"}>
                 <div className={"col-3"}>
-                    <SideMenu>
+                    <SideMenu addDeviceFun={this.addDeviceToExistingInfo}>
                         {this.renderItems()}
                     </SideMenu>
                 </div>

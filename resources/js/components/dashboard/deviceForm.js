@@ -1,25 +1,35 @@
 import React from "react";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Modal, Button, Form, Alert } from "react-bootstrap";
 
 import {executeAuthorizedAPICall} from "../../api";
 
 class DeviceFrom extends React.Component {
+    static defaultProps = {
+        addDeviceFun: () => {}
+    };
+
     constructor(props) {
         super(props);
 
         this.state = {
             renderModal: false,
-            deviceName: null,
-            deviceIMEI: null,
-            deviceLatitude: null,
-            deviceLongitude: null
+            deviceName: "",
+            deviceIMEI: "",
+            deviceLatitude: "",
+            deviceLongitude: "",
+            err: null
         };
     }
 
     toggleModal = (value) => {
         this.setState(
             {
-                renderModal: value
+                renderModal: value,
+                deviceName: "",
+                deviceIMEI: "",
+                deviceLatitude: "",
+                deviceLongitude: "",
+                err: null
             }
         );
     };
@@ -32,8 +42,67 @@ class DeviceFrom extends React.Component {
         this.toggleModal(false);
     };
 
-    createOrUpdateDevice = () => {
+    showError = (err) => {
+        this.setState(
+            {
+                err: err
+            }
+        )
+    };
 
+    createOrUpdateDevice = () => {
+        executeAuthorizedAPICall(
+            'device/add',
+            {
+                name: this.state.deviceName,
+                imei: this.state.deviceIMEI,
+                lat: this.state.deviceLatitude,
+                lng: this.state.deviceLongitude
+            }
+        ).then(
+            (json) => {
+                if(json.err !== undefined) {
+                    this.showError(json.err);
+
+                    return null;
+                }
+
+                return json.device;
+            }
+        ).then(
+            (device) => {
+                if(device !== null) {
+                    this.hideModal();
+
+                    //Idk if editing device is smart here.
+                    //The problem is that it doesn't come here with pivot info.
+                    //But i don't want to add one more query to serverside.
+                    //So faking data here which will always be true should be *smartish...*
+                    //Unless we will want to edit this functionality later.
+                    //But theoretically should be fine.
+                    console.log(device);
+                    this.props.addDeviceFun(
+                        {
+                            ...device,
+                            latitude: parseFloat(device.latitude),
+                            longitude: parseFloat(device.longitude),
+                            pivot: {
+                                active: true
+                            }
+                        }
+                    );
+                }
+            }
+        )
+    };
+
+    renderModalError = () => {
+        if(this.state.err === null)
+            return null;
+
+        return <Alert variant={"danger"}>
+            {this.state.err}
+        </Alert>
     };
 
     renderModal = () => {
@@ -43,6 +112,7 @@ class DeviceFrom extends React.Component {
                     <Modal.Title>Device factory</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    {this.renderModalError()}
                     <Form>
                         <Form.Group>
                             <Form.Label>Name</Form.Label>
@@ -51,10 +121,10 @@ class DeviceFrom extends React.Component {
                                 placeholder="Enter name..."
                                 value={this.state.deviceName}
                                 onChange={
-                                    (value) => {
+                                    (event) => {
                                         this.setState(
                                             {
-                                                deviceName: value
+                                                deviceName: event.target.value
                                             }
                                         )
                                     }
@@ -69,10 +139,10 @@ class DeviceFrom extends React.Component {
                                 placeholder="Enter IMEI..."
                                 value={this.state.deviceIMEI}
                                 onChange={
-                                    (value) => {
+                                    (event) => {
                                         this.setState(
                                             {
-                                                deviceIMEI: value
+                                                deviceIMEI: event.target.value
                                             }
                                         )
                                     }
@@ -87,10 +157,10 @@ class DeviceFrom extends React.Component {
                                 placeholder="Enter Latitude..."
                                 value={this.state.deviceLatitude}
                                 onChange={
-                                    (value) => {
+                                    (event) => {
                                         this.setState(
                                             {
-                                                deviceLatitude: value
+                                                deviceLatitude: event.target.value
                                             }
                                         )
                                     }
@@ -105,10 +175,10 @@ class DeviceFrom extends React.Component {
                                 placeholder="Enter Longitude..."
                                 value={this.state.deviceLongitude}
                                 onChange={
-                                    (value) => {
+                                    (event) => {
                                         this.setState(
                                             {
-                                                deviceLongitude: value
+                                                deviceLongitude: event.target.value
                                             }
                                         )
                                     }
