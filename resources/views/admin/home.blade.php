@@ -1,7 +1,5 @@
 @extends('layouts.app')
 
-@inject('geo', 'App\Services\GeoInterface')
-
 @section('content')
 
     <div class="container">
@@ -71,8 +69,8 @@
                     <th scope="row">{{ $device->id }}</th>
                     <td>{{ $device->imei }}</td>
                     <td>{{ $device->address }}</td>
-                    <td>{{ $device->users()->count() }}</td>
-                    <td>edit</td>
+                    <td>{{ $device->users_count }}</td>
+                    <td><a href="{{route("admin_device", ["id" => $device->id])}}">Edit Users</a></td>
                 </tr>
             @endforeach
             </tbody>
