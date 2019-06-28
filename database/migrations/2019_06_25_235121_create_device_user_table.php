@@ -15,10 +15,21 @@ class CreateDeviceUserTable extends Migration
     {
         Schema::create('device_user', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('device_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned()->index();
+            $table->bigInteger('device_id')->unsigned()->index();
             $table->boolean('active')->default(true);
-            $table->timestamps();
+
+            $table->unique(['user_id', 'device_id']);
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+
+            $table->foreign('device_id')
+                ->references('id')
+                ->on('devices')
+                ->onDelete('cascade');
         });
     }
 
