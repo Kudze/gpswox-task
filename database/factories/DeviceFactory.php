@@ -5,7 +5,7 @@
 use App\Models\Device;
 use Faker\Generator as Faker;
 
-$factory->define(Device::class, function (Faker $faker, \App\Services\GeoInterface $geo) {
+$factory->define(Device::class, function (Faker $faker) {
     $lat = $faker->latitude;
     $lng = $faker->longitude;
 
@@ -14,6 +14,6 @@ $factory->define(Device::class, function (Faker $faker, \App\Services\GeoInterfa
         'imei' => $faker->unique()->imei,
         'latitude' => $lat,
         'longitude' => $lng,
-        'address' => $geo->latLongToAddress($lat, $lng)
+        'address' => "Seeded devices no address! I don't want to kill my API key!"
     ];
 });
