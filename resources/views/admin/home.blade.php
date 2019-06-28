@@ -12,7 +12,7 @@
         <table class="table">
             <thead>
             <tr>
-                <th scope="col">#</th>
+                <th scope="col">ID</th>
                 <th scope="col">IMEI</th>
                 <th scope="col">Address</th>
                 <th scope="col">User count</th>
