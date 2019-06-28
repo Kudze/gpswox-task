@@ -13,7 +13,8 @@ class DeviceInfoBox extends React.Component {
             "name": "BMW X5",
             "imei": "527771798195722",
             "latitude": 0,
-            "longitude": 0
+            "longitude": 0,
+            "address": "Unknown",
         }
     };
 
@@ -21,13 +22,11 @@ class DeviceInfoBox extends React.Component {
         super(props);
 
         this.state = {
-            closestIMEI: null,
-            address: null
+            closestIMEI: null
         };
     }
 
     componentDidMount() {
-        this.updateAddress();
         this.updateClosestComponent();
     };
 
@@ -45,31 +44,8 @@ class DeviceInfoBox extends React.Component {
         )
     };
 
-    updateAddress = () => {
-        let setAddress = (address) => {
-            this.setState(
-                {
-                    address: address
-                }
-            );
-        };
-
-        Geocode.fromLatLng(this.props.data.latitude, this.props.data.longitude).then(
-            response => {
-                setAddress(
-                    response.results[0].formatted_address
-                );
-            },
-            () => {
-                setAddress(
-                    "Unknown"
-                );
-            }
-        );
-    };
-
     render() {
-        return this.state.closestIMEI === null || this.state.address === null ? (
+        return this.state.closestIMEI === null ? (
             <InfoBox>
                 <Spinner/>
             </InfoBox>
@@ -87,7 +63,7 @@ class DeviceInfoBox extends React.Component {
                     </tr>
                     <tr>
                         <td>Adresas:</td>
-                        <td>{this.state.address}</td>
+                        <td>{this.props.data.address}</td>
                     </tr>
                     <tr>
                         <td>Artimiausias kitas IMEI:</td>

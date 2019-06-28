@@ -14,11 +14,12 @@ class CreateDevicesTable extends Migration
     public function up()
     {
         Schema::create('devices', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string("name", 64);
+            $table->bigIncrements('id')->index();
+            $table->string("name", 64)->index();
             $table->string("imei", 15)->unique(); //imeisv requires 16 digits but this is prooly regular imei.
             $table->float("latitude");
             $table->float("longitude");
+            $table->string("address", 512)->index();
             $table->timestamps();
         });
     }

@@ -6,6 +6,7 @@ use App\Models\Device;
 use App\Models\User;
 use App\Repositories\DeviceRepositoryInterface;
 use App\Repositories\UserRepositoryInterface;
+use App\Services\GeoInterface;
 use App\Services\IMEIValidator;
 use App\Services\IMEIValidatorInterface;
 use Illuminate\Http\Request;
@@ -100,7 +101,7 @@ class APIController extends Controller
         );
     }
 
-    public function updateOrCreateDevice(Request $request) {
+    public function updateOrCreateDevice(Request $request, GeoInterface $geo) {
         $user = Auth::user();
 
         $name = $request->get("name", null);
@@ -125,7 +126,7 @@ class APIController extends Controller
 
         $device = Device::updateOrCreate(
             ["imei" => $imei],
-            ["name" => $name, "latitude" => $lat, "longitude" => $lng]
+            ["name" => $name, "latitude" => $lat, "longitude" => $lng, "address" => $geo->latLongToAddress($lat, $lng)]
         );
 
         //We want to attach device to user.

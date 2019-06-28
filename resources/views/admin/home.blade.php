@@ -24,7 +24,7 @@
                 <tr>
                     <th scope="row">{{ $device->id }}</th>
                     <td>{{ $device->imei }}</td>
-                    <td>{{ $geo->latLongToAddress($device->latitude, $device->longitude) }}</td>
+                    <td>{{ $device->address }}</td>
                     <td>{{ $device->users()->count() }}</td>
                     <td>edit</td>
                 </tr>
