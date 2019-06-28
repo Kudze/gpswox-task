@@ -12,10 +12,56 @@
         <table class="table">
             <thead>
             <tr>
-                <th scope="col">ID</th>
-                <th scope="col">IMEI</th>
-                <th scope="col">Address</th>
-                <th scope="col">User count</th>
+                <th scope="col">
+                    @if ($orderBy === "id")
+                        @if($orderType === "asc")
+                            <a href="{{ route("admin_home", ["orderBy" => "id", "orderType" => "desc"]) }}">ID (ASC)</a>
+                        @else
+                            <a href="{{ route("admin_home", ["orderBy" => "id", "orderType" => "asc"]) }}">ID (DESC)</a>
+                        @endif
+                    @else
+                        <a href="{{ route("admin_home", ["orderBy" => "id", "orderType" => "asc"]) }}">ID</a>
+                    @endif
+                </th>
+                <th scope="col">
+                    @if ($orderBy === "imei")
+                        @if($orderType === "asc")
+                            <a href="{{ route("admin_home", ["orderBy" => "imei", "orderType" => "desc"]) }}">IMEI
+                                (ASC)</a>
+                        @else
+                            <a href="{{ route("admin_home", ["orderBy" => "imei", "orderType" => "asc"]) }}">IMEI
+                                (DESC)</a>
+                        @endif
+                    @else
+                        <a href="{{ route("admin_home", ["orderBy" => "imei", "orderType" => "asc"]) }}">IMEI</a>
+                    @endif
+                </th>
+                <th scope="col">
+                    @if ($orderBy === "address")
+                        @if($orderType === "asc")
+                            <a href="{{ route("admin_home", ["orderBy" => "address", "orderType" => "desc"]) }}">Address
+                                (ASC)</a>
+                        @else
+                            <a href="{{ route("admin_home", ["orderBy" => "address", "orderType" => "asc"]) }}">Address
+                                (DESC)</a>
+                        @endif
+                    @else
+                        <a href="{{ route("admin_home", ["orderBy" => "address", "orderType" => "asc"]) }}">Address</a>
+                    @endif
+                </th>
+                <th scope="col">
+                    @if ($orderBy === "users_count")
+                        @if($orderType === "asc")
+                            <a href="{{ route("admin_home", ["orderBy" => "users_count", "orderType" => "desc"]) }}">User count
+                                (ASC)</a>
+                        @else
+                            <a href="{{ route("admin_home", ["orderBy" => "users_count", "orderType" => "asc"]) }}">User count
+                                (DESC)</a>
+                        @endif
+                    @else
+                        <a href="{{ route("admin_home", ["orderBy" => "users_count", "orderType" => "asc"]) }}">User count</a>
+                    @endif
+                </th>
                 <th scope="col">Actions</th>
             </tr>
             </thead>

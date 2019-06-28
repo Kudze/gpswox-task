@@ -18,4 +18,7 @@ Route::middleware('auth')->get('/', function () {
 });
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/admin', 'AdminController@index')->name('admin_home');
+Route::middleware(['auth', 'role:admin'])->get('/admin', function () {
+    return response()->redirectToRoute("admin_home", ["orderBy" => "id", "orderType" => "asc"]);
+});
+Route::get('/admin/{orderBy}/{orderType}', 'AdminController@index')->name('admin_home');

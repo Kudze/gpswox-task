@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Device;
+use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
@@ -12,14 +13,16 @@ class AdminController extends Controller
         $this->middleware('role:admin');
     }
 
-    public function index()
+    public function index($orderBy, $orderType)
     {
-        $devices = Device::paginate(20);
+        $devices = Device::withCount("users")->orderBy($orderBy, $orderType)->paginate(50);
 
         return response()->view(
             "admin/home",
             [
-                "devices" => $devices
+                "devices" => $devices,
+                "orderBy" => $orderBy,
+                "orderType" => $orderType
             ]
         );
     }
