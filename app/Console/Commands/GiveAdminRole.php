@@ -47,11 +47,13 @@ class GiveAdminRole extends Command
         if ($user === null)
             $this->error("Email is invalid!");
 
-        $webAdmin = Role::firstOrCreate(['guard_name' => 'web', 'name' => 'admin']);
-        $apiAdmin = Role::firstOrCreate(['guard_name' => 'api', 'name' => 'admin']);
-        $user->assignRole($webAdmin);
-        $user->assignRole($apiAdmin);
+        else {
+            $webAdmin = Role::firstOrCreate(['guard_name' => 'web', 'name' => 'admin']);
+            $apiAdmin = Role::firstOrCreate(['guard_name' => 'api', 'name' => 'admin']);
+            $user->assignRole($webAdmin);
+            $user->assignRole($apiAdmin);
 
-        $this->info("Success!");
+            $this->info("Success!");
+        }
     }
 }
