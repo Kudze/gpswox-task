@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Services\GeoInterface;
+use App\Services\GoogleGeo;
 use App\Services\IMEIValidator;
 use App\Services\IMEIValidatorInterface;
 use Illuminate\Support\ServiceProvider;
@@ -18,6 +20,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             IMEIValidatorInterface::class,
             IMEIValidator::class
+        );
+
+        $this->app->bind(
+            GeoInterface::class,
+            GoogleGeo::class
         );
     }
 
