@@ -20,7 +20,6 @@ class DeviceRepository implements DeviceRepositoryInterface
 
         Device::select('longitude', 'latitude', 'imei')->chunk(
             500,
-            //minDist and result is passed by reference.
             function ($devices) use ($latitude, $longitude, &$minDist, &$result) {
                 foreach($devices as $device) {
                     $distance = $this->calculateLatLongDistance(
@@ -30,13 +29,42 @@ class DeviceRepository implements DeviceRepositoryInterface
                         $device->longitude
                     );
 
-                    if($distance < $minDist || $result === null)
+                    if($distance < $minDist || $result === null) {
                         $result = $device->imei;
+                        $minDist = $distance;
+                    }
                 }
             }
         );
 
         return $result;
+    }
+
+    public function getFurthestDevicesFromPool(array $devices): array
+    {
+        $furthestPair = [];
+        $furthestDist = null;
+
+        $deviceCount = count($devices);
+        foreach($devices as $deviceIndex => $device) {
+            for($i = $deviceIndex + 1; $i < $deviceCount; $i++) {
+                $device2 = $devices[$i];
+
+                $dist = $this->calculateLatLongDistance(
+                    $device["latitude"],
+                    $device["longitude"],
+                    $device2["latitude"],
+                    $device2["longitude"]
+                );
+
+                if($furthestDist === null || $furthestDist < $dist) {
+                    $furthestDist = $dist;
+                    $furthestPair = [$deviceIndex, $i];
+                }
+            }
+        }
+
+        return $furthestPair;
     }
 
     private function calculateLatLongDistance($lat1, $lng1, $lat2, $lng2) : float

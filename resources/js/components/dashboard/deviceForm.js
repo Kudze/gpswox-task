@@ -1,11 +1,12 @@
 import React from "react";
-import { Modal, Button, Form, Alert } from "react-bootstrap";
+import {Modal, Button, Form, Alert} from "react-bootstrap";
 
 import {executeAuthorizedAPICall} from "../../api";
 
 class DeviceFrom extends React.Component {
     static defaultProps = {
-        addDeviceFun: () => {}
+        onDeviceAdded: () => {
+        }
     };
 
     constructor(props) {
@@ -61,43 +62,23 @@ class DeviceFrom extends React.Component {
             }
         ).then(
             (json) => {
-                if(json.err !== undefined) {
-                    this.showError(json.err);
-
-                    return null;
-                }
-
-                return json.device;
+                if (json.err !== undefined) throw json.err;
             }
         ).then(
-            (device) => {
-                if(device !== null) {
-                    this.hideModal();
+            () => {
+                this.hideModal();
 
-                    //Idk if editing device is smart here.
-                    //The problem is that it doesn't come here with pivot info.
-                    //But i don't want to add one more query to serverside.
-                    //So faking data here which will always be true should be *smartish...*
-                    //Unless we will want to edit this functionality later.
-                    //But theoretically should be fine.
-                    console.log(device);
-                    this.props.addDeviceFun(
-                        {
-                            ...device,
-                            latitude: parseFloat(device.latitude),
-                            longitude: parseFloat(device.longitude),
-                            pivot: {
-                                active: true
-                            }
-                        }
-                    );
-                }
+                this.props.onDeviceAdded();
+            }
+        ).catch(
+            (e) => {
+                this.showError(e);
             }
         )
     };
 
     renderModalError = () => {
-        if(this.state.err === null)
+        if (this.state.err === null)
             return null;
 
         return <Alert variant={"danger"}>

@@ -58,6 +58,13 @@ class APIController extends Controller
             $user
         );
 
+        $markedIndices = $this->deviceRepository->getFurthestDevicesFromPool(
+            $data->toArray()
+        );
+
+        foreach($data as $key => $value)
+            $value->marked = in_array($key, $markedIndices);
+
         return response()->json(
             $data
         );
@@ -133,10 +140,6 @@ class APIController extends Controller
         //sync function doesn't create already existing attachments in many to many relationship.
         $user->devices()->sync([$device->id], false);
 
-        return response()->json(
-            [
-                "device" => $device
-            ]
-        );
+        return response()->json();
     }
 }

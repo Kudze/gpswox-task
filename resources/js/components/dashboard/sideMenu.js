@@ -35,7 +35,7 @@ export default (props) => {
             }
         >
             {props.children.length === 0 ? renderEmpty() : renderList()}
-            <DeviceForm addDeviceFun={props.addDeviceFun}/>
+            <DeviceForm onDeviceAdded={props.onDeviceAdded}/>
         </div>
     )
 }

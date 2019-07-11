@@ -14,4 +14,10 @@ interface DeviceRepositoryInterface {
 
     public function getClosestDeviceIMEITo(float $latitude, float $logitude) : ?string;
 
+    /**
+     * @param Collection $devices (devices)
+     * @return array (Returns array of indexes from the pool)
+     */
+    public function getFurthestDevicesFromPool(array $devices) : array;
+
 }
