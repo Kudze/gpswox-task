@@ -19,7 +19,7 @@ class DeviceRepository implements DeviceRepositoryInterface
         $result = null;
         $minDist = 0;
 
-        Device::chuck(
+        Device::select('longitude', 'latitude', 'imei')->chunk(
             500,
             //minDist and result is passed by reference.
             function ($devices) use ($latitude, $longitude, &$minDist, &$result) {
@@ -32,7 +32,7 @@ class DeviceRepository implements DeviceRepositoryInterface
                     );
 
                     if($distance < $minDist || $result === null)
-                        $result = $device;
+                        $result = $device->imei;
                 }
             }
         );
