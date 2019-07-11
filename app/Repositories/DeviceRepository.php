@@ -8,39 +8,54 @@
 
 namespace App\Repositories;
 
+use App\Models\Device;
 use Illuminate\Support\Facades\DB;
 
 class DeviceRepository implements DeviceRepositoryInterface
 {
 
-    public function getClosestDeviceIMEITo(float $latitude, float $logitude): ?string
+    public function getClosestDeviceIMEITo(float $latitude, float $longitude): ?string
     {
-        $device = DB::table('devices')
-            ->selectRaw(
-            //Since we only want to find closest point and we don't want to know exact distance in kilometres
-            //We can skip sqrt and pow parts in the calculation, and it still should be fine.
-                "imei, 
-                            111.111 * DEGREES(ACOS(LEAST(COS(RADIANS(latitude))
-                             * COS(RADIANS(:lat))
-                             * COS(RADIANS(longitude - :lng))
-                             + SIN(RADIANS(latitude))
-                             * SIN(RADIANS(:latt)), 1.0))) 
-                             AS distance",
-                [
-                    'lat' => $latitude,
-                    'latt' => $latitude, //It didnt allow for me to use same arg twice.
-                    'lng' => $logitude
-                ]
-            )
-            ->havingRaw('distance != 0')
-            ->orderBy("distance")
-            ->take(1)
-            ->first();
+        $result = null;
+        $minDist = 0;
 
-        if ($device !== null)
-            return $device->imei;
+        Device::chuck(
+            500,
+            //minDist and result is passed by reference.
+            function ($devices) use ($latitude, $longitude, &$minDist, &$result) {
+                foreach($devices as $device) {
+                    $distance = $this->calculateLatLongDistance(
+                        $latitude,
+                        $longitude,
+                        $device->latitude,
+                        $device->longitude
+                    );
 
-        return null;
+                    if($distance < $minDist || $result === null)
+                        $result = $device;
+                }
+            }
+        );
+
+        return $result;
+    }
+
+    private function calculateLatLongDistance($lat1, $lng1, $lat2, $lng2) : float
+    {
+        $latFrom = deg2rad($lat1);
+        $lonFrom = deg2rad($lng1);
+        $latTo = deg2rad($lat2);
+        $lonTo = deg2rad($lng2);
+
+        $latDelta = $latTo - $latFrom;
+        $lonDelta = $lonTo - $lonFrom;
+
+        $angle = 2 * asin(sqrt(pow(sin($latDelta / 2), 2) +
+                cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
+
+        //Since, this is only used for relative calculations and distance data from this repository,
+        //won't be shown to user, we don't need to multiply to earth radius.
+        return $angle;// * $earthRadius;
     }
 
 }
