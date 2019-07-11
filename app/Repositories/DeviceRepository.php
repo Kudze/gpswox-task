@@ -9,7 +9,6 @@
 namespace App\Repositories;
 
 use App\Models\Device;
-use Illuminate\Support\Facades\DB;
 
 class DeviceRepository implements DeviceRepositoryInterface
 {
